@@ -1,3 +1,2 @@
-# omni-wallet
-
+# Omni Wallet
 The best way of safely storing and sharing your personal information!
