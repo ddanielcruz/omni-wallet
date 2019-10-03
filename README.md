@@ -1,2 +1,2 @@
 # Omni Wallet
-The best way of safely storing and sharing your personal information!
+A melhor maneira de armazenar e compartilhar seus dados pessoais!

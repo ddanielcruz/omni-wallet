@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{8EF49323-B7F4-466A-AEEC-15D1F80782AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{D1F0FE1E-87FC-4CDA-A22F-AA0996081347}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniWallet.Shared", "Shared\OmniWallet.Shared\OmniWallet.Shared.csproj", "{C821F6A6-6930-4E06-8D1B-BB37173B266A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniWallet.Database", "Database\OmniWallet.Database\OmniWallet.Database.csproj", "{D8585551-46B8-4A73-B114-CD7E9B7EFA34}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C821F6A6-6930-4E06-8D1B-BB37173B266A} = {8EF49323-B7F4-466A-AEEC-15D1F80782AE}
+		{D8585551-46B8-4A73-B114-CD7E9B7EFA34} = {D1F0FE1E-87FC-4CDA-A22F-AA0996081347}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C821F6A6-6930-4E06-8D1B-BB37173B266A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C821F6A6-6930-4E06-8D1B-BB37173B266A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C821F6A6-6930-4E06-8D1B-BB37173B266A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C821F6A6-6930-4E06-8D1B-BB37173B266A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8585551-46B8-4A73-B114-CD7E9B7EFA34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8585551-46B8-4A73-B114-CD7E9B7EFA34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8585551-46B8-4A73-B114-CD7E9B7EFA34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8585551-46B8-4A73-B114-CD7E9B7EFA34}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
