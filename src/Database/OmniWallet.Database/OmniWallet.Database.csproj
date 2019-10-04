@@ -9,4 +9,23 @@
       <ProjectReference Include="..\..\Shared\OmniWallet.Shared\OmniWallet.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Contracts\Persistence\Domain" />
+      <Folder Include="Contracts\Persistence\Enumerations" />
+      <Folder Include="Persistence\EntityConfigurations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="databaseSettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

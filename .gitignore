@@ -339,3 +339,6 @@ ASALocalRun/
 
 # Custom
 .env
+
+# Project
+databaseSettings.json
