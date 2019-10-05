@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OmniWallet.Database.Persistence;
@@ -9,42 +10,16 @@ using OmniWallet.Database.Persistence;
 namespace OmniWallet.Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191005014713_CriadoTabelaEstado")]
+    partial class CriadoTabelaEstado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Cidade", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<int>("IdEstado")
-                        .HasColumnName("id_estado");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnName("nome")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id")
-                        .HasName("pk_cidades");
-
-                    b.HasIndex("IdEstado")
-                        .HasName("ix_cidades_id_estado");
-
-                    b.HasIndex("Nome")
-                        .IsUnique()
-                        .HasName("ix_cidades_nome");
-
-                    b.ToTable("cidades");
-                });
 
             modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Estado", b =>
                 {
@@ -261,15 +236,6 @@ namespace OmniWallet.Database.Migrations
                         .HasName("ix_usuarios_email");
 
                     b.ToTable("usuarios");
-                });
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Cidade", b =>
-                {
-                    b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.Estado", "Estado")
-                        .WithMany("Cidades")
-                        .HasForeignKey("IdEstado")
-                        .HasConstraintName("fk_cidades_estados_id_estado")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Estado", b =>
