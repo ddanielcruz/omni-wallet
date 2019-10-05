@@ -12,6 +12,7 @@ namespace OmniWallet.Database.Persistence
         private readonly DataContext _context;
         private ICidadeRepository _cidades;
         private IEmailRepository _emails;
+        private IEnderecoRepository _enderecos;
         private IEstadoRepository _estados;
         private IPaisRepository _paises;
         private IPessoaRepository _pessoas;
@@ -31,6 +32,7 @@ namespace OmniWallet.Database.Persistence
 
         public ICidadeRepository Cidades => _cidades ?? (_cidades = new CidadeRepository(_context));
         public IEmailRepository Emails => _emails ?? (_emails = new EmailRepository(_context));
+        public IEnderecoRepository Enderecos => _enderecos ?? (_enderecos = new EnderecoRepository(_context));
         public IEstadoRepository Estados => _estados ?? (_estados = new EstadoRepository(_context));
         public IPaisRepository Paises => _paises ?? (_paises = new PaisRepository(_context));
         public IPessoaRepository Pessoas => _pessoas ?? (_pessoas = new PessoaRepository(_context));

@@ -8,6 +8,7 @@ namespace OmniWallet.Database.Contracts.Persistence
     {
         ICidadeRepository Cidades { get; }
         IEmailRepository Emails { get; }
+        IEnderecoRepository Enderecos { get; }
         IEstadoRepository Estados { get; }
         IPaisRepository Paises { get; }
         IPessoaRepository Pessoas { get; }

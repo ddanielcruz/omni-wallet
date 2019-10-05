@@ -9,6 +9,7 @@ namespace OmniWallet.Database.Contracts.Persistence.Domain
             Emails = new HashSet<Email>();
             Telefones = new HashSet<Telefone>();
             PessoasRedesSociais = new HashSet<PessoaRedeSocial>();
+            Enderecos = new HashSet<Endereco>();
         }
         
         public int Id { get; set; }
@@ -20,5 +21,6 @@ namespace OmniWallet.Database.Contracts.Persistence.Domain
         public virtual ICollection<Email> Emails { get; set; }
         public virtual ICollection<Telefone> Telefones { get; set; }
         public virtual ICollection<PessoaRedeSocial> PessoasRedesSociais { get; set; }
+        public virtual ICollection<Endereco> Enderecos { get; set; }
     }
 }
