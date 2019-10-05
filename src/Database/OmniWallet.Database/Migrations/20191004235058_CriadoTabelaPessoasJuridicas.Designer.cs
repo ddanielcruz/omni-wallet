@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OmniWallet.Database.Persistence;
@@ -9,41 +10,16 @@ using OmniWallet.Database.Persistence;
 namespace OmniWallet.Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191004235058_CriadoTabelaPessoasJuridicas")]
+    partial class CriadoTabelaPessoasJuridicas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Pessoa", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<int?>("IdPessoaFisica")
-                        .HasColumnName("id_pessoa_fisica");
-
-                    b.Property<int?>("IdPessoaJuridica")
-                        .HasColumnName("id_pessoa_juridica");
-
-                    b.HasKey("Id")
-                        .HasName("pk_pessoas");
-
-                    b.HasIndex("IdPessoaFisica")
-                        .IsUnique()
-                        .HasName("ix_pessoas_id_pessoa_fisica");
-
-                    b.HasIndex("IdPessoaJuridica")
-                        .IsUnique()
-                        .HasName("ix_pessoas_id_pessoa_juridica");
-
-                    b.ToTable("pessoas");
-                });
 
             modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.PessoaFisica", b =>
                 {
@@ -159,21 +135,6 @@ namespace OmniWallet.Database.Migrations
                         .HasName("ix_usuarios_email");
 
                     b.ToTable("usuarios");
-                });
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Pessoa", b =>
-                {
-                    b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.PessoaFisica", "PessoaFisica")
-                        .WithOne("Pessoa")
-                        .HasForeignKey("OmniWallet.Database.Contracts.Persistence.Domain.Pessoa", "IdPessoaFisica")
-                        .HasConstraintName("fk_pessoas_pessoas_fisicas_id_pessoa_fisica")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.PessoaJuridica", "PessoaJuridica")
-                        .WithOne("Pessoa")
-                        .HasForeignKey("OmniWallet.Database.Contracts.Persistence.Domain.Pessoa", "IdPessoaJuridica")
-                        .HasConstraintName("fk_pessoas_pessoas_juridicas_id_pessoa_juridica")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

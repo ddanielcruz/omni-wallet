@@ -10,9 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Contracts\Persistence\Domain" />
       <Folder Include="Contracts\Persistence\Enumerations" />
-      <Folder Include="Persistence\EntityConfigurations" />
     </ItemGroup>
 
     <ItemGroup>

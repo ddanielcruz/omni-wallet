@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using OmniWallet.Database.Contracts.Persistence.Domain;
 using OmniWallet.Database.Utils;
 using OmniWallet.Shared.Extensions;
 
@@ -11,12 +12,13 @@ namespace OmniWallet.Database.Persistence
     {
         private readonly string _connectionString;
         
-        [SuppressMessage("ReSharper", "UnusedMember.Global")]
         public DataContext() : this(Settings.ConnectionString)
         {
-            // Construtor necessário para instanciar o DbContext sem precisar adicionar 
-            // a connection string diretamente no código 
+            
         }
+
+        public DbSet<PessoaFisica> PessoasFisicas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
         
         public DataContext(string connectionString) 
             => _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
