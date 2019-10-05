@@ -24,6 +24,18 @@ namespace OmniWallet.Database.Persistence.EntityConfigurations
                 .HasForeignKey<Pessoa>(x => x.IdPessoaJuridica)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
+
+            builder
+                .HasMany(x => x.Emails)
+                .WithOne(x => x.Pessoa)
+                .HasForeignKey(x => x.IdPessoa)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            builder
+                .HasMany(x => x.Telefones)
+                .WithOne(x => x.Pessoa)
+                .HasForeignKey(x => x.IdPessoa)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

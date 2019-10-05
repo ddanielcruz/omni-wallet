@@ -60,6 +60,13 @@ namespace OmniWallet.Database.Persistence.EntityConfigurations
                 .HasForeignKey(s => s.IdPais)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasMany(x => x.Telefones)
+                .WithOne(x => x.Pais)
+                .HasForeignKey(x => x.IdPais)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

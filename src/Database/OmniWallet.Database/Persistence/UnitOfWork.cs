@@ -11,11 +11,14 @@ namespace OmniWallet.Database.Persistence
     {
         private readonly DataContext _context;
         private ICidadeRepository _cidades;
+        private IEmailRepository _emails;
         private IEstadoRepository _estados;
         private IPaisRepository _paises;
         private IPessoaRepository _pessoas;
         private IPessoaFisicaRepository _pessoasFisicas;
         private IPessoaJuridicaRepository _pessoasJuridicas;
+        private IRedeSocialRepository _redesSociais;
+        private ITelefoneRepository _telefones;
         private IUsuarioRepository _usuarios;
         
         public UnitOfWork(string connectionString)
@@ -27,11 +30,14 @@ namespace OmniWallet.Database.Persistence
         }
 
         public ICidadeRepository Cidades => _cidades ?? (_cidades = new CidadeRepository(_context));
+        public IEmailRepository Emails => _emails ?? (_emails = new EmailRepository(_context));
         public IEstadoRepository Estados => _estados ?? (_estados = new EstadoRepository(_context));
         public IPaisRepository Paises => _paises ?? (_paises = new PaisRepository(_context));
         public IPessoaRepository Pessoas => _pessoas ?? (_pessoas = new PessoaRepository(_context));
         public IPessoaFisicaRepository PessoasFisicas => _pessoasFisicas ?? (_pessoasFisicas = new PessoaFisicaRepository(_context));
         public IPessoaJuridicaRepository PessoasJuridicas => _pessoasJuridicas ?? (_pessoasJuridicas = new PessoaJuridicaRepository(_context));
+        public IRedeSocialRepository RedesSociais => _redesSociais ?? (_redesSociais = new RedeSocialRepository(_context));
+        public ITelefoneRepository Telefones => _telefones ?? (_telefones = new TelefoneRepository(_context));
         public IUsuarioRepository Usuarios => _usuarios ?? (_usuarios = new UsuarioRepository(_context));
 
         public void Dispose() => _context.Dispose();

@@ -7,6 +7,7 @@ namespace OmniWallet.Database.Contracts.Persistence.Domain
         public Pais()
         {
             Estados = new HashSet<Estado>();
+            Telefones = new HashSet<Telefone>();
         }
         
         public short Id { get; set; }
@@ -16,5 +17,6 @@ namespace OmniWallet.Database.Contracts.Persistence.Domain
         public string DDI { get; set; }
 
         public ICollection<Estado> Estados { get; set; }
+        public ICollection<Telefone> Telefones { get; set; }
     }
 }
