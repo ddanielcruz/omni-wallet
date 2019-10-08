@@ -13,7 +13,10 @@ namespace OmniWallet.Database.Contracts.Persistence
         IPaisRepository Paises { get; }
         IPessoaRepository Pessoas { get; }
         IPessoaFisicaRepository PessoasFisicas { get; }
+        IPessoaFisicaFiscalRepository PessoasFisicasFiscal { get; }
+        IPessoaFisicaSaudeRepository PessoasFisicasSaudes { get; }
         IPessoaJuridicaRepository PessoasJuridicas { get; }
+        IProfissaoRepository Profissoes { get; }
         IRedeSocialRepository RedesSociais { get; }
         ITelefoneRepository Telefones { get; }
         IUsuarioRepository Usuarios { get; }

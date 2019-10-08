@@ -19,6 +19,9 @@ namespace OmniWallet.Database.Contracts.Persistence.Enumerations
         Cobranca = 8,
         
         [Description("Trabalho")]
-        Trabalho = 16
+        Trabalho = 16,
+        
+        [Description("Outro")]
+        Outro = 32
     }
 }

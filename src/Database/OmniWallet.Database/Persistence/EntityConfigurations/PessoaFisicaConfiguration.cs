@@ -23,6 +23,21 @@ namespace OmniWallet.Database.Persistence.EntityConfigurations
                 .Property(x => x.Sobrenome)
                 .IsRequired()
                 .HasMaxLength(SobrenomeMaxLength);
+            
+            // Relationships
+            builder
+                .HasOne(x => x.Saude)
+                .WithOne(x => x.Pessoa)
+                .HasForeignKey<PessoaFisica>(x => x.IdPessoaFisicaSaude)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
+            
+            builder
+                .HasOne(x => x.Fiscal)
+                .WithOne(x => x.Pessoa)
+                .HasForeignKey<PessoaFisica>(x => x.IdPessoaFisicaFiscal)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
         }
     }
 }

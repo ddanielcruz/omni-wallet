@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OmniWallet.Database.Persistence;
@@ -9,9 +10,10 @@ using OmniWallet.Database.Persistence;
 namespace OmniWallet.Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191008020538_CriadoTabelaPessoaFisicaFiscal")]
+    partial class CriadoTabelaPessoaFisicaFiscal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,18 +305,12 @@ namespace OmniWallet.Database.Migrations
                     b.Property<byte?>("EstadoCivil")
                         .HasColumnName("estado_civil");
 
-                    b.Property<short?>("IdProfissao")
-                        .HasColumnName("id_profissao");
-
                     b.Property<string>("RG")
                         .HasColumnName("rg")
                         .HasMaxLength(20);
 
                     b.HasKey("Id")
                         .HasName("pk_pessoas_fisicas_fiscal");
-
-                    b.HasIndex("IdProfissao")
-                        .HasName("ix_pessoas_fisicas_fiscal_id_profissao");
 
                     b.ToTable("pessoas_fisicas_fiscal");
                 });
@@ -403,23 +399,6 @@ namespace OmniWallet.Database.Migrations
                         .HasName("ix_pessoas_redes_sociais_id_rede_social");
 
                     b.ToTable("pessoas_redes_sociais");
-                });
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Profissao", b =>
-                {
-                    b.Property<short>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnName("nome")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id")
-                        .HasName("pk_profissoes");
-
-                    b.ToTable("profissoes");
                 });
 
             modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.RedeSocial", b =>
@@ -595,15 +574,6 @@ namespace OmniWallet.Database.Migrations
                         .WithOne("Pessoa")
                         .HasForeignKey("OmniWallet.Database.Contracts.Persistence.Domain.PessoaFisica", "IdPessoaFisicaSaude")
                         .HasConstraintName("fk_pessoas_fisicas_pessoas_fisicas_saudes_id_pessoa_fisica_sau~")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.PessoaFisicaFiscal", b =>
-                {
-                    b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.Profissao", "Profissao")
-                        .WithMany("PessoasFisicasFiscal")
-                        .HasForeignKey("IdProfissao")
-                        .HasConstraintName("fk_pessoas_fisicas_fiscal_profissoes_id_profissao")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
