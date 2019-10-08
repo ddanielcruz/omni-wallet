@@ -4,6 +4,11 @@ namespace OmniWallet.Database.Contracts.Persistence.Domain
 {
     public class Cidade
     {
+        public Cidade()
+        {
+            Enderecos = new HashSet<Endereco>();
+        }
+        
         public int Id { get; set; }
         public int IdEstado { get; set; }
         public string Nome { get; set; }

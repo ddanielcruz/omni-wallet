@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 namespace OmniWallet.Database.Contracts.Persistence.Domain
 {
-    public class Profissao
+    public class Permissao
     {
-        public Profissao()
+        public Permissao()
         {
-            PessoasFisicasFiscal = new HashSet<PessoaFisicaFiscal>();
+            Usuarios = new HashSet<UsuarioPermissao>();;
         }
         
         public short Id { get; set; }
         public string Nome { get; set; }
 
-        public virtual ICollection<PessoaFisicaFiscal> PessoasFisicasFiscal { get; set; }
+        public virtual ICollection<UsuarioPermissao> Usuarios { get; set; }
     }
 }

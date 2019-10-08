@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OmniWallet.Database.Persistence;
@@ -9,9 +10,10 @@ using OmniWallet.Database.Persistence;
 namespace OmniWallet.Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191008022407_RelacionadoTabelasUsuarioPessoa")]
+    partial class RelacionadoTabelasUsuarioPessoa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,27 +209,6 @@ namespace OmniWallet.Database.Migrations
                         .HasName("ix_paises_nome");
 
                     b.ToTable("paises");
-                });
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Permissao", b =>
-                {
-                    b.Property<short>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnName("nome")
-                        .HasMaxLength(64);
-
-                    b.HasKey("Id")
-                        .HasName("pk_permissoes");
-
-                    b.HasIndex("Nome")
-                        .IsUnique()
-                        .HasName("ix_permissoes_nome");
-
-                    b.ToTable("permissoes");
                 });
 
             modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Pessoa", b =>
@@ -554,23 +535,6 @@ namespace OmniWallet.Database.Migrations
                     b.ToTable("usuarios");
                 });
 
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.UsuarioPermissao", b =>
-                {
-                    b.Property<int>("IdUsuario")
-                        .HasColumnName("id_usuario");
-
-                    b.Property<short>("IdPermissao")
-                        .HasColumnName("id_permissao");
-
-                    b.HasKey("IdUsuario", "IdPermissao")
-                        .HasName("pk_usuarios_permissoes");
-
-                    b.HasIndex("IdPermissao")
-                        .HasName("ix_usuarios_permissoes_id_permissao");
-
-                    b.ToTable("usuarios_permissoes");
-                });
-
             modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Cidade", b =>
                 {
                     b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.Estado", "Estado")
@@ -686,21 +650,6 @@ namespace OmniWallet.Database.Migrations
                         .HasForeignKey("IdPessoa")
                         .HasConstraintName("fk_telefones_pessoas_id_pessoa")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.UsuarioPermissao", b =>
-                {
-                    b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.Permissao", "Permissao")
-                        .WithMany("Usuarios")
-                        .HasForeignKey("IdPermissao")
-                        .HasConstraintName("fk_usuarios_permissoes_permissoes_id_permissao")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.Usuario", "Usuario")
-                        .WithMany("Permissoes")
-                        .HasForeignKey("IdUsuario")
-                        .HasConstraintName("fk_usuarios_permissoes_usuarios_id_usuario")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -13,9 +13,11 @@ namespace OmniWallet.Database.Contracts.Persistence.Domain
         }
         
         public int Id { get; set; }
+        public int IdUsuario { get; set; }
         public int? IdPessoaFisica { get; set; }
         public int? IdPessoaJuridica { get; set; }
 
+        public virtual Usuario Usuario { get; set; }
         public virtual PessoaFisica PessoaFisica { get; set; }
         public virtual PessoaJuridica PessoaJuridica { get; set; }
         public virtual ICollection<Email> Emails { get; set; }

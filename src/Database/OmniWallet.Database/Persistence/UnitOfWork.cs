@@ -16,6 +16,7 @@ namespace OmniWallet.Database.Persistence
         private IEnderecoRepository _enderecos;
         private IEstadoRepository _estados;
         private IPaisRepository _paises;
+        private IPermissaoRepository _permissoes;
         private IPessoaRepository _pessoas;
         private IPessoaFisicaRepository _pessoasFisicas;
         private IPessoaFisicaFiscalRepository _pessoasFisicasFiscal;
@@ -25,6 +26,7 @@ namespace OmniWallet.Database.Persistence
         private IRedeSocialRepository _redesSociais;
         private ITelefoneRepository _telefones;
         private IUsuarioRepository _usuarios;
+        private IUsuarioPermissaoRepository _usuariosPermissoes;
         
         public UnitOfWork(string connectionString)
         {
@@ -39,6 +41,7 @@ namespace OmniWallet.Database.Persistence
         public IEnderecoRepository Enderecos => _enderecos ?? (_enderecos = new EnderecoRepository(_context));
         public IEstadoRepository Estados => _estados ?? (_estados = new EstadoRepository(_context));
         public IPaisRepository Paises => _paises ?? (_paises = new PaisRepository(_context));
+        public IPermissaoRepository Permissoes => _permissoes ?? (_permissoes = new PermissaoRepository(_context));
         public IPessoaRepository Pessoas => _pessoas ?? (_pessoas = new PessoaRepository(_context));
         public IPessoaFisicaRepository PessoasFisicas => _pessoasFisicas ?? (_pessoasFisicas = new PessoaFisicaRepository(_context));
         public IPessoaFisicaFiscalRepository PessoasFisicasFiscal => _pessoasFisicasFiscal ?? (_pessoasFisicasFiscal = new PessoaFisicaFiscalRepository(_context));
@@ -48,6 +51,7 @@ namespace OmniWallet.Database.Persistence
         public IRedeSocialRepository RedesSociais => _redesSociais ?? (_redesSociais = new RedeSocialRepository(_context));
         public ITelefoneRepository Telefones => _telefones ?? (_telefones = new TelefoneRepository(_context));
         public IUsuarioRepository Usuarios => _usuarios ?? (_usuarios = new UsuarioRepository(_context));
+        public IUsuarioPermissaoRepository UsuariosPermissoes => _usuariosPermissoes ?? (_usuariosPermissoes = new UsuarioPermissaoRepository(_context));
 
         public void Dispose() => _context.Dispose();
         

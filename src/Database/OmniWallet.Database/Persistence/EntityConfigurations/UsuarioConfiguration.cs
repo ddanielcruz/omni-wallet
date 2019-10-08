@@ -44,6 +44,13 @@ namespace OmniWallet.Database.Persistence.EntityConfigurations
                 .IsRequired()
                 .HasDefaultValue(true);
             
+            // Relationships
+            builder
+                .HasOne(x => x.Pessoa)
+                .WithOne(x => x.Usuario)
+                .HasForeignKey<Pessoa>(x => x.IdUsuario)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Indexes
             builder
                 .HasIndex(x => x.Email)

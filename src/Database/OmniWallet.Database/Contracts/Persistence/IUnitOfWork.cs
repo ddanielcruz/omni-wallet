@@ -11,6 +11,7 @@ namespace OmniWallet.Database.Contracts.Persistence
         IEnderecoRepository Enderecos { get; }
         IEstadoRepository Estados { get; }
         IPaisRepository Paises { get; }
+        IPermissaoRepository Permissoes { get; }
         IPessoaRepository Pessoas { get; }
         IPessoaFisicaRepository PessoasFisicas { get; }
         IPessoaFisicaFiscalRepository PessoasFisicasFiscal { get; }
@@ -20,6 +21,7 @@ namespace OmniWallet.Database.Contracts.Persistence
         IRedeSocialRepository RedesSociais { get; }
         ITelefoneRepository Telefones { get; }
         IUsuarioRepository Usuarios { get; }
+        IUsuarioPermissaoRepository UsuariosPermissoes { get; }
         
         int Complete();
         Task<int> CompleteAsync();

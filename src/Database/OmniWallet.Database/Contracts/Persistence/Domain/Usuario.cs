@@ -1,9 +1,15 @@
 using System;
+using System.Collections.Generic;
 
 namespace OmniWallet.Database.Contracts.Persistence.Domain
 {
     public class Usuario
     {
+        public Usuario()
+        {
+            Permissoes = new HashSet<UsuarioPermissao>();
+        }
+        
         public int Id { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmado { get; set; }
@@ -11,5 +17,8 @@ namespace OmniWallet.Database.Contracts.Persistence.Domain
         public byte[] SenhaSalt { get; set; }
         public bool Ativo { get; set; }
         public DateTime MembroDesde { get; set; }
+
+        public virtual Pessoa Pessoa { get; set; }
+        public virtual ICollection<UsuarioPermissao> Permissoes { get; set; }
     }
 }
