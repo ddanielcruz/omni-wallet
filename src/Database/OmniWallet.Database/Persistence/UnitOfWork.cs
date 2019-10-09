@@ -15,6 +15,8 @@ namespace OmniWallet.Database.Persistence
         private IEmailRepository _emails;
         private IEnderecoRepository _enderecos;
         private IEstadoRepository _estados;
+        private IOperadorRepository _operadores;
+        private IOperadorPermissaoRepository _operadoresPermissoes;
         private IPaisRepository _paises;
         private IPermissaoRepository _permissoes;
         private IPessoaRepository _pessoas;
@@ -27,7 +29,7 @@ namespace OmniWallet.Database.Persistence
         private ITelefoneRepository _telefones;
         private IUsuarioRepository _usuarios;
         private IUsuarioPermissaoRepository _usuariosPermissoes;
-        
+
         public UnitOfWork(string connectionString)
         {
             if (string.IsNullOrWhiteSpace(connectionString))
@@ -40,6 +42,8 @@ namespace OmniWallet.Database.Persistence
         public IEmailRepository Emails => _emails ?? (_emails = new EmailRepository(_context));
         public IEnderecoRepository Enderecos => _enderecos ?? (_enderecos = new EnderecoRepository(_context));
         public IEstadoRepository Estados => _estados ?? (_estados = new EstadoRepository(_context));
+        public IOperadorRepository Operadores => _operadores ?? (_operadores = new OperadorRepository(_context));
+        public IOperadorPermissaoRepository OperadoresPermissoes => _operadoresPermissoes ?? (_operadoresPermissoes = new OperadorPermissaoRepository(_context));
         public IPaisRepository Paises => _paises ?? (_paises = new PaisRepository(_context));
         public IPermissaoRepository Permissoes => _permissoes ?? (_permissoes = new PermissaoRepository(_context));
         public IPessoaRepository Pessoas => _pessoas ?? (_pessoas = new PessoaRepository(_context));

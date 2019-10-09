@@ -10,6 +10,8 @@ namespace OmniWallet.Database.Contracts.Persistence
         IEmailRepository Emails { get; }
         IEnderecoRepository Enderecos { get; }
         IEstadoRepository Estados { get; }
+        IOperadorRepository Operadores { get; }
+        IOperadorPermissaoRepository OperadoresPermissoes { get; }
         IPaisRepository Paises { get; }
         IPermissaoRepository Permissoes { get; }
         IPessoaRepository Pessoas { get; }

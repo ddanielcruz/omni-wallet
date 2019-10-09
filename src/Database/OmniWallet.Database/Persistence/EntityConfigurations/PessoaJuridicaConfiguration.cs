@@ -37,6 +37,13 @@ namespace OmniWallet.Database.Persistence.EntityConfigurations
                 .HasMaxLength(CNPJFixedLength)
                 .IsFixedLength();
             
+            // Relationships
+            builder
+                .HasMany(x => x.Operadores)
+                .WithOne(x => x.PessoaJuridica)
+                .HasForeignKey(x => x.IdPessoaJuridica)
+                .OnDelete(DeleteBehavior.Cascade);
+            
             // Indexes
             builder
                 .HasIndex(x => x.RazaoSocial)

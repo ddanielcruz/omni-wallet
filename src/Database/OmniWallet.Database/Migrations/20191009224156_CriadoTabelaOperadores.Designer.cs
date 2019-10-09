@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OmniWallet.Database.Persistence;
@@ -9,9 +10,10 @@ using OmniWallet.Database.Persistence;
 namespace OmniWallet.Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191009224156_CriadoTabelaOperadores")]
+    partial class CriadoTabelaOperadores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,23 +196,6 @@ namespace OmniWallet.Database.Migrations
                         .HasName("ix_operadores_id_pessoa_juridica");
 
                     b.ToTable("operadores");
-                });
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.OperadorPermissao", b =>
-                {
-                    b.Property<int>("IdOperador")
-                        .HasColumnName("id_operador");
-
-                    b.Property<short>("IdPermissao")
-                        .HasColumnName("id_permissao");
-
-                    b.HasKey("IdOperador", "IdPermissao")
-                        .HasName("pk_operadores_permissoes");
-
-                    b.HasIndex("IdPermissao")
-                        .HasName("ix_operadores_permissoes_id_permissao");
-
-                    b.ToTable("operadores_permissoes");
                 });
 
             modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.Pais", b =>
@@ -671,21 +656,6 @@ namespace OmniWallet.Database.Migrations
                         .WithMany("Operadores")
                         .HasForeignKey("IdPessoaJuridica")
                         .HasConstraintName("fk_operadores_pessoas_juridicas_id_pessoa_juridica")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OmniWallet.Database.Contracts.Persistence.Domain.OperadorPermissao", b =>
-                {
-                    b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.Operador", "Operador")
-                        .WithMany("Permissoes")
-                        .HasForeignKey("IdOperador")
-                        .HasConstraintName("fk_operadores_permissoes_operadores_id_operador")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OmniWallet.Database.Contracts.Persistence.Domain.Permissao", "Permissao")
-                        .WithMany("Operadores")
-                        .HasForeignKey("IdPermissao")
-                        .HasConstraintName("fk_operadores_permissoes_permissoes_id_permissao")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
