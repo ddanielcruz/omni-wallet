@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniWallet.Shared", "Shared
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniWallet.Database", "Database\OmniWallet.Database\OmniWallet.Database.csproj", "{D8585551-46B8-4A73-B114-CD7E9B7EFA34}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{326A3E81-B4BB-4A57-AAB6-1544297D718D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniWallet.Api", "Api\OmniWallet.Api\OmniWallet.Api.csproj", "{3B9481E7-A085-4107-B7AF-0B20139A4BFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,6 +20,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C821F6A6-6930-4E06-8D1B-BB37173B266A} = {8EF49323-B7F4-466A-AEEC-15D1F80782AE}
 		{D8585551-46B8-4A73-B114-CD7E9B7EFA34} = {D1F0FE1E-87FC-4CDA-A22F-AA0996081347}
+		{3B9481E7-A085-4107-B7AF-0B20139A4BFD} = {326A3E81-B4BB-4A57-AAB6-1544297D718D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C821F6A6-6930-4E06-8D1B-BB37173B266A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -26,5 +31,9 @@ Global
 		{D8585551-46B8-4A73-B114-CD7E9B7EFA34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8585551-46B8-4A73-B114-CD7E9B7EFA34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8585551-46B8-4A73-B114-CD7E9B7EFA34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B9481E7-A085-4107-B7AF-0B20139A4BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9481E7-A085-4107-B7AF-0B20139A4BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B9481E7-A085-4107-B7AF-0B20139A4BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B9481E7-A085-4107-B7AF-0B20139A4BFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
