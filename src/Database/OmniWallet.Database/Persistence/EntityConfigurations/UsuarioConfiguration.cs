@@ -7,6 +7,7 @@ namespace OmniWallet.Database.Persistence.EntityConfigurations
     public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
     {
         public const int EmailMaxLength = 255;
+        public const int SenhaMinLength = 8;
         
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {

@@ -1,20 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using OmniWallet.Api.Constants;
-using Swashbuckle.AspNetCore.Swagger;
+using OmniWallet.Api.Contracts.Services.Data;
+using OmniWallet.Api.Services.Data;
+using OmniWallet.Database.Contracts.Persistence;
+using OmniWallet.Database.Persistence;
 
 namespace OmniWallet.Api
 {
@@ -25,7 +23,7 @@ namespace OmniWallet.Api
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -50,10 +48,10 @@ namespace OmniWallet.Api
             services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerGen(conf =>
             {
-                conf.SwaggerDoc("v1", new OpenApiInfo
+                conf.SwaggerDoc(VersionConstants.V1, new OpenApiInfo
                 {
-                    Title = $"OmniWallet.Api (v1)",
-                    Version = "v1",
+                    Title = $"OmniWallet.Api ({VersionConstants.V1})",
+                    Version = VersionConstants.V1,
                     Description = "API utilizada para realizar a comunicação entre o sistema web e o aplicativo.",
                     Contact = new OpenApiContact
                     {
@@ -63,6 +61,21 @@ namespace OmniWallet.Api
                     }
                 });
             });
+            
+            ConfigureContainer(services);
+        }
+
+        private void ConfigureContainer(IServiceCollection services)
+        {
+            // Database
+            var connectionString = Configuration.GetConnectionString("Default");
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new ArgumentNullException(nameof(connectionString), "The connection string must not be null.");
+            
+            services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
+            
+            // Services/Data
+            services.AddScoped<IUsuarioService, UsuarioService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +91,7 @@ namespace OmniWallet.Api
             app.UseAuthorization();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"OmniWallet.Api (v1)"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint($"/swagger/{VersionConstants.V1}/swagger.json", $"OmniWallet.Api ({VersionConstants.V1})"));
         }
     }
 }

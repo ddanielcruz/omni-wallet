@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
+	<UserSecretsId>9f3e5a95-ab4f-4c3f-a254-6000e395a343</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -9,6 +10,11 @@
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.0.0-preview8.19405.7" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Database\OmniWallet.Database\OmniWallet.Database.csproj" />
+      <ProjectReference Include="..\..\Shared\OmniWallet.Shared\OmniWallet.Shared.csproj" />
     </ItemGroup>
 
 </Project>
