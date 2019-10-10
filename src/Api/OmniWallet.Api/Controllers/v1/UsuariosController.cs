@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using OmniWallet.Api.Constants;
 using OmniWallet.Api.Contracts.Services.Data;
 using OmniWallet.Api.Dtos;
+using OmniWallet.Api.Dtos.Usuarios;
 using OmniWallet.Api.Exceptions;
 
 namespace OmniWallet.Api.Controllers.v1
@@ -27,13 +28,13 @@ namespace OmniWallet.Api.Controllers.v1
         // POST: api/v1/Usuarios/Cadastrar
         [AllowAnonymous]
         [HttpPost("Cadastrar")]
-        public async Task<IActionResult> CadastrarAsync(UsuarioDto usuarioDto)
+        public async Task<IActionResult> CadastrarAsync(UsuarioCadastroDto usuarioCadastroDto)
         {
             await Task.CompletedTask;
 
             try
             {
-                return Ok(usuarioDto);
+                return Ok(usuarioCadastroDto);
             }
             catch (AppException e)
             {
@@ -44,7 +45,7 @@ namespace OmniWallet.Api.Controllers.v1
         // POST: api/v1/Usuarios/Login
         [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginAsync(UsuarioDto usuarioDto)
+        public async Task<IActionResult> LoginAsync(UsuarioCadastroDto usuarioCadastroDto)
         {
             await Task.CompletedTask;
             return Ok();

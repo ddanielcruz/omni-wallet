@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using OmniWallet.Api.Resources.Messages;
 using OmniWallet.Database.Persistence.EntityConfigurations;
+using OmniWallet.Shared.Attributes;
 
-namespace OmniWallet.Api.Dtos
+namespace OmniWallet.Api.Dtos.Usuarios
 {
-    public class UsuarioDto
+    public class UsuarioCadastroDto
     {
         [Display(Name = "E-mail")]
         [Required(ErrorMessageResourceName = nameof(ErrorMessages.Required), ErrorMessageResourceType = typeof(ErrorMessages))]
@@ -12,9 +13,13 @@ namespace OmniWallet.Api.Dtos
         [EmailAddress(ErrorMessageResourceName = nameof(ErrorMessages.Email), ErrorMessageResourceType = typeof(ErrorMessages))]
         public string Email { get; set; }
 
-        // TODO: Adicionar validação de senha forte
+        [StrongPassword]
         [Required(ErrorMessageResourceName = nameof(ErrorMessages.Required), ErrorMessageResourceType = typeof(ErrorMessages))]
         [MinLength(UsuarioConfiguration.SenhaMinLength, ErrorMessageResourceName = nameof(ErrorMessages.MinLength), ErrorMessageResourceType = typeof(ErrorMessages))]
         public string Senha { get; set; }
+
+        public UsuarioPessoaFisicaCadastroDto PessoaFisica { get; set; }
+        
+        public UsuarioPessoaJuridicaCadastroDto PessoaJuridica { get; set; }
     }
 }
