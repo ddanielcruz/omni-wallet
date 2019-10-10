@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OmniWallet.Api.Constants;
 
 namespace OmniWallet.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion(VersionConstants.V1)]
+    [Route(RouteConstants.RouteTemplate)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
