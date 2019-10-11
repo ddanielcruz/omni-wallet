@@ -7,6 +7,11 @@ namespace OmniWallet.Api.Dtos.Usuarios
 {
     public class UsuarioPessoaJuridicaCadastroDto
     {
+        [Display(Name = "Nome Fantasia")]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessages.Required), ErrorMessageResourceType = typeof(ErrorMessages))]
+        [MaxLength(PessoaJuridicaConfiguration.NomeFantasiaMaxLength, ErrorMessageResourceName = nameof(ErrorMessages.MaxLength), ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string NomeFantasia { get; set; }
+        
         [Display(Name = "Razão Social")]
         [Required(ErrorMessageResourceName = nameof(ErrorMessages.Required), ErrorMessageResourceType = typeof(ErrorMessages))]
         [MaxLength(PessoaJuridicaConfiguration.RazaoSocialMaxLength, ErrorMessageResourceName = nameof(ErrorMessages.MaxLength), ErrorMessageResourceType = typeof(ErrorMessages))]

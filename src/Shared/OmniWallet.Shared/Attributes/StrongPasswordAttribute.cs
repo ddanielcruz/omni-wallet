@@ -7,7 +7,7 @@ namespace OmniWallet.Shared.Attributes
     public class StrongPasswordAttribute : ValidationAttribute
     {
         private static readonly Regex Regex = new Regex(RegexConstants.StrongPassword);
-        private const string DefaultMessage = "A senha deve possuir letras maiúsculas, minúsculas e numéricas.";
+        public const string DefaultMessage = "A senha deve possuir pelo menos oito caracteres, contendo letras maiúsculas, minúsculas e números.";
 
         public override bool IsValid(object value)
         {

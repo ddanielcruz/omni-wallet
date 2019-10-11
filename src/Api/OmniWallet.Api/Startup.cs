@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -9,8 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OmniWallet.Api.Constants;
-using OmniWallet.Api.Contracts.Services.Data;
-using OmniWallet.Api.Services.Data;
+using OmniWallet.Api.Contracts.Services.Entities;
+using OmniWallet.Api.Services.Entities;
 using OmniWallet.Database.Contracts.Persistence;
 using OmniWallet.Database.Persistence;
 
@@ -45,7 +46,7 @@ namespace OmniWallet.Api
                 options.DefaultApiVersion = new ApiVersion(1, 0);
             });
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSwaggerGen(conf =>
             {
                 conf.SwaggerDoc(VersionConstants.V1, new OpenApiInfo
@@ -74,6 +75,7 @@ namespace OmniWallet.Api
             
             services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
             
+            // TODO: Pensar em uma maneira melhorar de cadastrar os serviços sem construtor como o UnitOfWork
             // Services/Data
             services.AddScoped<IUsuarioService, UsuarioService>();
         }
