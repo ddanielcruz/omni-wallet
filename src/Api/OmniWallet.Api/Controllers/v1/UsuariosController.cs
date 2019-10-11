@@ -18,7 +18,7 @@ namespace OmniWallet.Api.Controllers.v1
     {
         private readonly IUsuarioService _usuarioService;
 
-        public UsuariosController(IUsuarioService usuarioService, IMapper mapper)
+        public UsuariosController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
         }

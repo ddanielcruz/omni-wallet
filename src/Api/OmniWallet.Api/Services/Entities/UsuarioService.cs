@@ -28,7 +28,6 @@ namespace OmniWallet.Api.Services.Entities
 
         public async Task<UsuarioDto> CadastrarAsync(UsuarioCadastroDto usuarioCadastro)
         {
-            // TODO: Testar e validar regras de negócio do cadastro de usuário
             if (usuarioCadastro == null) throw new ArgumentNullException(nameof(usuarioCadastro));
             if (usuarioCadastro.PessoaFisica == null && usuarioCadastro.PessoaJuridica == null) 
                 throw new AppException("É obrigatório informar uma pessoa física ou uma pessoa jurídica.");
@@ -142,16 +141,17 @@ namespace OmniWallet.Api.Services.Entities
             if (string.IsNullOrWhiteSpace(nome))
                 throw new AppException("Informe seu nome.");
 
+            nome = nome.Trim();
             if (nome.Length > PessoaFisicaConfiguration.NomeMaxLength)
-                throw new AppException(
-                    $"O campo \"Nome\" deve possuir no máximo {PessoaFisicaConfiguration.NomeMaxLength} letras.");
+                throw new AppException($"O campo \"Nome\" deve possuir no máximo {PessoaFisicaConfiguration.NomeMaxLength} letras.");
         }
 
         private static void ValidarSobrenome(string sobrenome)
         {
-            if (sobrenome == null || string.IsNullOrWhiteSpace(sobrenome))
+            if (string.IsNullOrWhiteSpace(sobrenome))
                 throw new AppException("Informe seu sobrenome.");
 
+            sobrenome = sobrenome.Trim();
             if (sobrenome.Length > PessoaFisicaConfiguration.SobrenomeMaxLength)
                 throw new AppException($"O campo \"Sobrenome\" deve possuir no máximo {PessoaFisicaConfiguration.SobrenomeMaxLength} letras.");
         }
@@ -170,7 +170,8 @@ namespace OmniWallet.Api.Services.Entities
         {
             if (string.IsNullOrWhiteSpace(nomeFantasia))
                 throw new AppException("Informe seu nome fantasia.");
-            
+
+            nomeFantasia = nomeFantasia.Trim();
             if (nomeFantasia.Length > PessoaJuridicaConfiguration.NomeFantasiaMaxLength)
                 throw new AppException($"O campo \"Nome Fantasia\" deve possuir no máximo {PessoaJuridicaConfiguration.NomeFantasiaMaxLength} letras.");
             
@@ -182,7 +183,8 @@ namespace OmniWallet.Api.Services.Entities
         {
             if (string.IsNullOrWhiteSpace(razaoSocial))
                 throw new AppException("Informe sua razão social.");
-            
+
+            razaoSocial = razaoSocial.Trim();
             if (razaoSocial.Length > PessoaJuridicaConfiguration.RazaoSocialMaxLength)
                 throw new AppException($"O campo \"Razão Social\" deve possuir no máximo {PessoaJuridicaConfiguration.RazaoSocialMaxLength} letras.");
             
@@ -194,14 +196,14 @@ namespace OmniWallet.Api.Services.Entities
         {
             if (string.IsNullOrWhiteSpace(dominio))
                 throw new AppException("Informe um domínio.");
-            
-            if (dominio.Length > PessoaJuridicaConfiguration.DominioMaxLength)
-                throw new AppException($"O campo \"Domínio\" deve possuir no máximo {PessoaJuridicaConfiguration.DominioMaxLength} letras.");
 
             var regex = new Regex(RegexConstants.OnlyNumbersAndLetters);
             if (!regex.IsMatch(dominio))
                 throw new AppException("O domínio deve possuir apenas letras (maiusculas e minúsculas) e números.");
             
+            if (dominio.Length > PessoaJuridicaConfiguration.DominioMaxLength)
+                throw new AppException($"O campo \"Domínio\" deve possuir no máximo {PessoaJuridicaConfiguration.DominioMaxLength} letras.");
+
             if (await _unitOfWork.PessoasJuridicas.IsDominioUsadoAsync(dominio))
                 throw new AppException("O domínio informado já foi usado.");
         }

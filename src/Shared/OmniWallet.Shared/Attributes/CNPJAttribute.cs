@@ -7,7 +7,7 @@ namespace OmniWallet.Shared.Attributes
     public class CNPJAttribute : ValidationAttribute
     {
         private static readonly Regex Regex = new Regex(RegexConstants.ValidCNPJ); 
-        public const string DefaultMessage = "O CNPJ deve possuir 14 números, sem pontos, vírgulas e traços.";
+        public const string DefaultMessage = "O CNPJ informado não é válido.";
         
         public override bool IsValid(object value)
         {
@@ -21,6 +21,15 @@ namespace OmniWallet.Shared.Attributes
             return IsValidCNPJ(cnpj) ? ValidationResult.Success : new ValidationResult(ErrorMessage ?? DefaultMessage);
         }
 
-        private static bool IsValidCNPJ(string cnpj) => Regex.IsMatch(cnpj);
+        private static bool IsValidCNPJ(string cnpj)
+        {
+            cnpj = cnpj
+                .Trim()
+                .Replace("/", "")
+                .Replace(".", "")
+                .Replace("-", "");
+            
+            return Regex.IsMatch(cnpj);
+        }
     }
 }

@@ -15,7 +15,6 @@ namespace OmniWallet.Api.Dtos.Usuarios
 
         [StrongPassword]
         [Required(ErrorMessageResourceName = nameof(ErrorMessages.Required), ErrorMessageResourceType = typeof(ErrorMessages))]
-        [MinLength(UsuarioConfiguration.SenhaMinLength, ErrorMessageResourceName = nameof(ErrorMessages.MinLength), ErrorMessageResourceType = typeof(ErrorMessages))]
         public string Senha { get; set; }
 
         public UsuarioPessoaFisicaCadastroDto PessoaFisica { get; set; }
