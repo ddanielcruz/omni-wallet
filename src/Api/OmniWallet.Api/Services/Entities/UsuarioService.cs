@@ -16,6 +16,7 @@ using OmniWallet.Api.Dtos.Usuarios;
 using OmniWallet.Api.Exceptions;
 using OmniWallet.Database.Contracts.Persistence;
 using OmniWallet.Database.Contracts.Persistence.Domain;
+using OmniWallet.Database.Contracts.Persistence.Enumerations;
 using OmniWallet.Database.Persistence.EntityConfigurations;
 using OmniWallet.Shared.Attributes;
 using OmniWallet.Shared.Constants;
@@ -68,7 +69,6 @@ namespace OmniWallet.Api.Services.Entities
 
         private string CriarToken(Usuario usuario)
         {
-            // TODO: Add user's role
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration[ConfigurationConstants.AppSecret]);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -77,7 +77,7 @@ namespace OmniWallet.Api.Services.Entities
                 {
                     new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                     new Claim(ClaimTypes.Email, usuario.Email),
-//                    new Claim(ClaimTypes.Role, user.Role) 
+                    new Claim(ClaimTypes.Role, usuario.Papel.ToString()), 
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -160,18 +160,22 @@ namespace OmniWallet.Api.Services.Entities
 
             // TODO: Adicionar as permissões comuns de cada tipo de pessoa
             if (usuarioCadastro.PessoaFisica != null)
+            {
+                usuario.Papel = UsuarioPapel.Usuario;
                 usuario.Pessoa.PessoaFisica = new PessoaFisica
                 {
                     Nome = usuarioCadastro.PessoaFisica.Nome.Trim(),
                     Sobrenome = usuarioCadastro.PessoaFisica.Sobrenome.Trim(),
                 };
+            }
             else
             {
                 usuarioCadastro.PessoaJuridica.CNPJ = usuarioCadastro.PessoaJuridica.CNPJ
                     .Replace(".", "")
                     .Replace("/", "")
                     .Replace("-", "");
-                
+
+                usuario.Papel = UsuarioPapel.Cliente;
                 usuario.Pessoa.PessoaJuridica = new PessoaJuridica
                 {
                     NomeFantasia = usuarioCadastro.PessoaJuridica.NomeFantasia.Trim(),

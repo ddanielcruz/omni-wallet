@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OmniWallet.Database.Contracts.Persistence.Domain;
+using OmniWallet.Database.Contracts.Persistence.Enumerations;
 
 namespace OmniWallet.Database.Persistence.EntityConfigurations
 {
@@ -44,6 +45,11 @@ namespace OmniWallet.Database.Persistence.EntityConfigurations
                 .Property(x => x.Ativo)
                 .IsRequired()
                 .HasDefaultValue(true);
+
+            builder
+                .Property(x => x.Papel)
+                .IsRequired()
+                .HasDefaultValue(UsuarioPapel.Usuario);
             
             // Relationships
             builder

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OmniWallet.Database.Contracts.Persistence.Enumerations;
 
 namespace OmniWallet.Database.Contracts.Persistence.Domain
 {
@@ -16,6 +17,7 @@ namespace OmniWallet.Database.Contracts.Persistence.Domain
         public byte[] SenhaHash { get; set; }
         public byte[] SenhaSalt { get; set; }
         public bool Ativo { get; set; }
+        public UsuarioPapel Papel { get; set; }
         public DateTime MembroDesde { get; set; }
 
         public virtual Pessoa Pessoa { get; set; }
