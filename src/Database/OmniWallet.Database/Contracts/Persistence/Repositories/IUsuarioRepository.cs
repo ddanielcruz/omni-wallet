@@ -6,5 +6,6 @@ namespace OmniWallet.Database.Contracts.Persistence.Repositories
     public interface IUsuarioRepository : IRepository<Usuario>
     {
         Task<bool> IsEmailUsadoAsync(string email);
+        Task<Usuario> FindByEmailAsync(string email);
     }
 }

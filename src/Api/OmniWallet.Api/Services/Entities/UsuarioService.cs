@@ -26,6 +26,11 @@ namespace OmniWallet.Api.Services.Entities
             _mapper = mapper;
         }
 
+        public Task<UsuarioDto> AutenticarAsync(UsuarioAutenticacaoDto usuarioAutenticacao)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<UsuarioDto> CadastrarAsync(UsuarioCadastroDto usuarioCadastro)
         {
             if (usuarioCadastro == null) throw new ArgumentNullException(nameof(usuarioCadastro));
@@ -84,6 +89,7 @@ namespace OmniWallet.Api.Services.Entities
             // Cria a pessoa de acordo com a pessoa informada no cadastro
             usuario.Pessoa = new Pessoa();
 
+            // TODO: Adicionar as permissões comuns de cada tipo de pessoa
             if (usuarioCadastro.PessoaFisica != null)
                 usuario.Pessoa.PessoaFisica = new PessoaFisica
                 {

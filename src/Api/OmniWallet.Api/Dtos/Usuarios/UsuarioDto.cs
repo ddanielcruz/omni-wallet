@@ -9,5 +9,6 @@ namespace OmniWallet.Api.Dtos.Usuarios
         public bool EmailConfirmado { get; set; }
         public bool Ativo { get; set; }
         public DateTime MembroDesde { get; set; }
+        public string Token { get; set; }
     }
 }
