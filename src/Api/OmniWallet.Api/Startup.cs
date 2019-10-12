@@ -1,9 +1,9 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -112,7 +112,7 @@ namespace OmniWallet.Api
                     
                     options.Events = new JwtBearerEvents
                     {
-                        OnTokenValidated = async (context) =>
+                        OnTokenValidated = async context =>
                         {
                             var unitOfWork = context.HttpContext.RequestServices.GetService<IUnitOfWork>();
                             var userId = int.Parse(context.Principal.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -129,6 +129,7 @@ namespace OmniWallet.Api
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

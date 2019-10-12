@@ -1,8 +1,16 @@
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using OmniWallet.Api.Constants;
 using OmniWallet.Api.Contracts.Services.Entities;
 using OmniWallet.Api.Dtos.Usuarios;
 using OmniWallet.Api.Exceptions;
@@ -19,18 +27,67 @@ namespace OmniWallet.Api.Services.Entities
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UsuarioService(IUnitOfWork unitOfWork, IMapper mapper)
+        public UsuarioService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
-        public Task<UsuarioDto> AutenticarAsync(UsuarioAutenticacaoDto usuarioAutenticacao)
+        public async Task<UsuarioDto> AutenticarAsync(string email, string senha)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
+                return null;
+            
+            // Valida a existência do usuário
+            if (!(await _unitOfWork.Usuarios.FindByEmailAsync(email) is { } usuario))
+                return null;
+            
+            // Valida a senha do usuário 
+            if (!VerificarSenha(senha, usuario.SenhaHash, usuario.SenhaSalt))
+                return null;
+
+            // Ativa o usuário caso ele houvesse desativado sua conta
+            if (!usuario.Ativo)
+                await AtivarUsuarioAsync(usuario);
+            
+            // Cria o token de autenticação
+            var usuarioDto = _mapper.Map<UsuarioDto>(usuario);
+            usuarioDto.Token = CriarToken(usuario);
+
+            return usuarioDto;
         }
 
+        private async Task AtivarUsuarioAsync(Usuario usuario)
+        {
+            usuario.Ativo = true;
+            await _unitOfWork.CompleteAsync();
+        }
+
+        private string CriarToken(Usuario usuario)
+        {
+            // TODO: Add user's role
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration[ConfigurationConstants.AppSecret]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+                    new Claim(ClaimTypes.Email, usuario.Email),
+//                    new Claim(ClaimTypes.Role, user.Role) 
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            return tokenString;
+        }
+        
         public async Task<UsuarioDto> CadastrarAsync(UsuarioCadastroDto usuarioCadastro)
         {
             if (usuarioCadastro == null) throw new ArgumentNullException(nameof(usuarioCadastro));
@@ -81,6 +138,18 @@ namespace OmniWallet.Api.Services.Entities
             senhaHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(senha));
         }
 
+        private static bool VerificarSenha(string senhaRecebida, byte[] senhaHash, byte[] senhaSalt)
+        {
+            if (string.IsNullOrWhiteSpace(senhaRecebida)) throw new ArgumentException(@"Informe sua senha.", nameof(senhaRecebida));
+            if (senhaHash.Length != 64) throw new ArgumentException(@"Comprimento inválido do hash da senha (esperado 64 bytes).", nameof(senhaHash));
+            if (senhaSalt.Length != 128) throw new ArgumentException(@"Comprimento inválido do salt da senha (esperado 128 bytes).", nameof(senhaSalt));
+
+            using var hmac = new System.Security.Cryptography.HMACSHA512(senhaSalt);
+            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(senhaRecebida));
+            
+            return !computedHash.Where((t, i) => t != senhaHash[i]).Any();
+        }
+        
         private static void CriaPessoaUsuario(Usuario usuario, UsuarioCadastroDto usuarioCadastro)
         {
             if (usuario == null) throw new ArgumentNullException(nameof(usuario));

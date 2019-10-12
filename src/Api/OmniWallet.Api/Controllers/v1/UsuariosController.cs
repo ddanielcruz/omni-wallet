@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +28,12 @@ namespace OmniWallet.Api.Controllers.v1
         [HttpPost("Autenticar")]
         public async Task<IActionResult> AutenticarAsync(UsuarioAutenticacaoDto usuarioAutenticacao)
         {
+            if (usuarioAutenticacao == null)
+                return BadRequest("Credenciais não informadas.");
+            
             try
             {
-                var usuarioDto = await _usuarioService.AutenticarAsync(usuarioAutenticacao);
+                var usuarioDto = await _usuarioService.AutenticarAsync(usuarioAutenticacao.Email, usuarioAutenticacao.Senha);
                 if (usuarioDto == null)
                     return BadRequest(new ResponseDto("E-mail e/ou senha incorretos!"));
 

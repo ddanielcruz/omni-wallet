@@ -5,7 +5,7 @@ namespace OmniWallet.Api.Contracts.Services.Entities
 {
     public interface IUsuarioService
     {
-        Task<UsuarioDto> AutenticarAsync(UsuarioAutenticacaoDto usuarioAutenticacao);
+        Task<UsuarioDto> AutenticarAsync(string email, string senha);
         Task<UsuarioDto> CadastrarAsync(UsuarioCadastroDto usuarioCadastro);
     }
 }
