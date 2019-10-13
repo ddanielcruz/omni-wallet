@@ -14,13 +14,13 @@ namespace OmniWallet.Api.Controllers.v1
     [ApiController]
     [ApiVersion(VersionConstants.V1)]
     [Route(RouteConstants.RouteTemplate)]
-    public class UsuariosController : ControllerBase
+    public class UsuariosController : Controller
     {
         private readonly IUsuarioService _usuarioService;
 
         public UsuariosController(IUsuarioService usuarioService)
         {
-            _usuarioService = usuarioService;
+            _usuarioService = usuarioService ?? throw new ArgumentNullException(nameof(usuarioService));
         }
 
         // POST: api/v1/Usuarios/Autenticar
@@ -59,6 +59,12 @@ namespace OmniWallet.Api.Controllers.v1
             {
                 return BadRequest(new ResponseDto(e.Message));
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _usuarioService.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

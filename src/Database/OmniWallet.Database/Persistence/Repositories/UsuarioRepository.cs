@@ -27,7 +27,7 @@ namespace OmniWallet.Database.Persistence.Repositories
                 throw new ArgumentException("O e-mail não pode ser nulo.", nameof(email));
             
             email = email.Trim().ToLower();
-            return SingleAsync(x => x.Email.ToLower() == email);
+            return SingleOrDefaultAsync(x => x.Email.ToLower() == email);
         }
     }
 }

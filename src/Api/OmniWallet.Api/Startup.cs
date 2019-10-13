@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
@@ -19,6 +20,7 @@ using OmniWallet.Api.Contracts.Services.Entities;
 using OmniWallet.Api.Services.Entities;
 using OmniWallet.Database.Contracts.Persistence;
 using OmniWallet.Database.Persistence;
+using OmniWallet.Shared.Attributes;
 
 namespace OmniWallet.Api
 {
@@ -34,6 +36,7 @@ namespace OmniWallet.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services
                 .AddControllers()
                 .AddJsonOptions(options =>
@@ -43,6 +46,9 @@ namespace OmniWallet.Api
                     options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 });
+            
+            ConfigureJwtAuth(services);
+            ConfigureContainer(services);
             
             services.AddApiVersioning(options =>
             {
@@ -67,23 +73,41 @@ namespace OmniWallet.Api
                     }
                 });
             });
-            
-            ConfigureJwtAuth(services);
-            ConfigureContainer(services);
         }
 
         private void ConfigureContainer(IServiceCollection services)
         {
             // Database
             var connectionString = Configuration.GetConnectionString(ConfigurationConstants.ConnectionString);
-            if (string.IsNullOrWhiteSpace(connectionString))
-                throw new ArgumentNullException(nameof(connectionString), @"The connection string must not be null.");
+            if (string.IsNullOrWhiteSpace(connectionString)) 
+                throw new ArgumentNullException(nameof(connectionString), @"A connection string não pode ser nula.");
             
             services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
             
-            // TODO: Pensar em uma maneira melhorar de cadastrar os serviços sem construtor como o UnitOfWork
-            // Services/Data
-            services.AddScoped<IUsuarioService, UsuarioService>();
+            // Mapped Services
+            ConfigureMappedServices(services);
+        }
+
+        /// <summary>
+        /// Configura os serviços que possuem o atributo MappedService. 
+        /// </summary>
+        /// <param name="services">Collection de serviços da aplicação</param>
+        private static void ConfigureMappedServices(IServiceCollection services)
+        {
+            var attributeType = typeof(MappedServiceAttribute);
+            var types = Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Where(x => x.GetCustomAttributes(attributeType, true).Length > 0);
+
+            foreach (var type in types)
+            {
+                var inheritedType = type
+                    .GetInterfaces()
+                    .Single(x => x.Name.Contains(type.Name));
+
+                services.AddScoped(inheritedType, type);
+            }
         }
 
         private void ConfigureJwtAuth(IServiceCollection services)
@@ -99,17 +123,6 @@ namespace OmniWallet.Api
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.RequireHttpsMetadata = Configuration[ConfigurationConstants.Environment] != EnvironmentConstants.Development;
-                    options.SaveToken = true;
-                    
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                    
                     options.Events = new JwtBearerEvents
                     {
                         OnTokenValidated = async context =>
@@ -125,6 +138,15 @@ namespace OmniWallet.Api
                             }
                         }
                     };
+                    options.RequireHttpsMetadata = false;// Configuration[ConfigurationConstants.Environment] != EnvironmentConstants.Development;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
                 });
         }
         
@@ -133,18 +155,18 @@ namespace OmniWallet.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
 
-            app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
-            app.UseAuthentication();
+
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseHttpsRedirection();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint($"/swagger/{VersionConstants.V1}/swagger.json", $"OmniWallet.Api ({VersionConstants.V1})"));

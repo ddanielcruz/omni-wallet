@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -8,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using OmniWallet.Api.Constants;
 using OmniWallet.Api.Contracts.Services.Entities;
@@ -24,6 +22,7 @@ using OmniWallet.Shared.Utils;
 
 namespace OmniWallet.Api.Services.Entities
 {
+    [MappedService]
     internal class UsuarioService : IUsuarioService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -77,7 +76,7 @@ namespace OmniWallet.Api.Services.Entities
                 {
                     new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                     new Claim(ClaimTypes.Email, usuario.Email),
-                    new Claim(ClaimTypes.Role, usuario.Papel.ToString()), 
+                    new Claim(ClaimTypes.Role, Enum.GetName(typeof(UsuarioPapel), usuario.Papel)), 
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -300,5 +299,10 @@ namespace OmniWallet.Api.Services.Entities
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            _unitOfWork?.Dispose();
+        }
     }
 }
