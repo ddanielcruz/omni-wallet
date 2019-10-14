@@ -7,7 +7,6 @@ using OmniWallet.Database.Contracts.Persistence.Repositories;
 
 namespace OmniWallet.Database.Persistence.Repositories
 {
-    [SuppressMessage("ReSharper", "AccessToModifiedClosure")]
     internal class PessoaJuridicaRepository : Repository<PessoaJuridica>, IPessoaJuridicaRepository
     {
         public PessoaJuridicaRepository(DataContext context) : base(context)

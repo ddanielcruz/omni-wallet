@@ -17,7 +17,10 @@ namespace OmniWallet.Database.Persistence
             
         }
 
+        public DbSet<Estado> Estados { get; set; }
+        public DbSet<Pais> Paises { get; set; }
         public DbSet<PessoaFisica> PessoasFisicas { get; set; }
+        public DbSet<Telefone> Telefones { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         
         public DataContext(string connectionString) 

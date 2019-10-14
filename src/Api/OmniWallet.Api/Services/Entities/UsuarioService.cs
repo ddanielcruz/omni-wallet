@@ -200,7 +200,7 @@ namespace OmniWallet.Api.Services.Entities
 
             email = email.Trim();
             if (email.Length > UsuarioConfiguration.EmailMaxLength)
-                throw new AppException($"O campo \"E-mail\" deve possuir no máximo {UsuarioConfiguration.EmailMaxLength}.");
+                throw new AppException($"O campo \"E-mail\" deve possuir no máximo {UsuarioConfiguration.EmailMaxLength} letras.");
             
             if (await _unitOfWork.Usuarios.IsEmailUsadoAsync(email)) 
                 throw new AppException("O e-mail informado já foi usado.");
@@ -216,22 +216,28 @@ namespace OmniWallet.Api.Services.Entities
 
         private static void ValidarNome(string nome)
         {
+            nome = nome?.Trim();
             if (string.IsNullOrWhiteSpace(nome))
                 throw new AppException("Informe seu nome.");
 
-            nome = nome.Trim();
             if (nome.Length > PessoaFisicaConfiguration.NomeMaxLength)
                 throw new AppException($"O campo \"Nome\" deve possuir no máximo {PessoaFisicaConfiguration.NomeMaxLength} letras.");
+            
+            if (!Validations.IsOnlyLetters(nome))
+                throw new AppException($"O campo \"Nome\" deve possuir apenas letras.");
         }
 
         private static void ValidarSobrenome(string sobrenome)
         {
+            sobrenome = sobrenome?.Trim();
             if (string.IsNullOrWhiteSpace(sobrenome))
                 throw new AppException("Informe seu sobrenome.");
 
-            sobrenome = sobrenome.Trim();
             if (sobrenome.Length > PessoaFisicaConfiguration.SobrenomeMaxLength)
                 throw new AppException($"O campo \"Sobrenome\" deve possuir no máximo {PessoaFisicaConfiguration.SobrenomeMaxLength} letras.");
+            
+            if (!Validations.IsOnlyLetters(sobrenome))
+                throw new AppException($"O campo \"Sobrenome\" deve possuir apenas letras.");
         }
         
         private async Task ValidarPessoaJuridicaAsync(UsuarioPessoaJuridicaCadastroDto pessoaJuridica)

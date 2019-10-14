@@ -1,11 +1,14 @@
 using System;
 using System.Runtime.Serialization;
+using OmniWallet.Api.Dtos;
 
 namespace OmniWallet.Api.Exceptions
 {
     [Serializable]
     public class AppException : Exception
     {
+        public ResponseDto Response => new ResponseDto(Message);
+        
         public AppException()
         {
             
